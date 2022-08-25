@@ -49,6 +49,7 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
    - [Encode/Parse](#json)
    - [Decode/Stringify](#json)
  - [Promise](#promise)
+ - [Try/Catch]()
 
  ## Work In progress
 	buffers
@@ -57,7 +58,6 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
 	writing
 	event emitter
 	errors
-	try/catch
 	exceptions
 	regex
 	exec (sync)
@@ -1453,5 +1453,93 @@ task 1 end
 task 3 end
 task 2 end
 ['Task 1 completed in 2131 milliseconds', 'Task 2 completed in 8710 milliseconds', 'Task 3 completed in 4047 milliseconds']
+```
+**[⬆ back to top](#contents)**
+#### Try Catch
+---
+### Node.js
+
+```node
+const actors = [{ name: "John", age: 18 }]
+
+function actor_by_name(name) {
+
+    for (actor of actors) {
+        if (actor.name === name) {
+            return actor
+        }
+    }
+    throw Error(`Actor ${name} not exist`)
+}
+
+(function () {
+    try {
+        console.log(actor_by_name('John'))
+        console.log(actor_by_name('Angelina'))
+        
+    } catch (e) {
+        console.log(e);
+    }
+})()
+```
+#### Output
+```
+{ name: 'John', age: 18 }
+Error: Actor Angelina not exist
+    at actor_by_name (/Users/vlang-for-nodejs-developers/examples/trycatch.js:10:11)
+    at /Users/vlang-for-nodejs-developers/examples/trycatch.js:16:21
+    at Object.<anonymous> (/Users/vlang-for-nodejs-developers/examples/trycatch.js:21:3)
+    at Module._compile (node:internal/modules/cjs/loader:1120:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+    at Module.load (node:internal/modules/cjs/loader:998:32)
+    at Module._load (node:internal/modules/cjs/loader:839:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+    at node:internal/main/run_main_module:17:47
+```
+### V
+```v 
+struct Actor {
+	name string
+	age  int
+}
+
+struct List {
+	actors []Actor
+}
+
+fn (l List) by_name(name string) ?Actor {
+	for a in l.actors {
+		if a.name == name {
+			return a
+		}
+	}
+	return error('Employee $name not exist')
+}
+
+fn main() {
+	actor := List{
+		actors: [Actor{
+			name: 'John'
+			age: 18
+		}]
+	}
+	actor_details := actor.by_name('John') or { panic(err) }
+	println(actor_details)
+	actor_details2 := actor.by_name('Angelina') or { panic(err) }
+	println(actor_details2)
+}
+```
+#### Output
+```
+Actor{
+    name: 'John'
+    age: 18
+}
+V panic: Employee Angelina not exist
+v hash: 3bc01d6
+0   trycatch                            0x000000010f7cf4cf main__main + 687
+1   trycatch                            0x000000010f7d01ac main + 76
+2   trycatch                            0x000000010f7a80b4 start + 52
+3   ???                                 0x0000000000000001 0x0 + 1
 ```
 **[⬆ back to top](#contents)**
