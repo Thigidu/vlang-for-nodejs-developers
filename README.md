@@ -49,7 +49,7 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
    - [Encode/Parse](#json)
    - [Decode/Stringify](#json)
  - [Promise](#promise)
- - [Try/Catch]()
+ - [Try/Catch](#try-catch)
 
  ## Work In progress
 	buffers
