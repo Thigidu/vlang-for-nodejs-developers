@@ -50,6 +50,7 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
    - [Decode/Stringify](#json)
  - [Promise](#promise)
  - [Try/Catch](#try-catch)
+ - [Http Server](#http-server)
 
  ## Work In progress
 	buffers
@@ -64,7 +65,6 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
 	exec (async)
 	tcp server
 	udp server
-	http server
 	url parse
 	gzip 
 	dns 
@@ -1541,5 +1541,67 @@ v hash: 3bc01d6
 1   trycatch                            0x000000010f7d01ac main + 76
 2   trycatch                            0x000000010f7a80b4 start + 52
 3   ???                                 0x0000000000000001 0x0 + 1
+```
+**[⬆ back to top](#contents)**
+#### Http server
+---
+### Node.js
+
+```node
+const http = require('http');
+
+const server = http.createServer(function (req, res) {
+
+    var url = req.url;
+    if (url === '/version') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            data: 'node 16'
+        }));
+    } else {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+            error: 'Not found'
+        }));
+    }
+})
+
+server.listen(8080, function () {
+    console.log("Server running on 8080");
+}); 
+```
+#### Output
+```
+curl --get localhost:8080/version
+{"data":"node 16"}
+curl --get localhost:8080/unknowpath
+{"error":"Not found"}
+```
+### V
+```v 
+import vweb
+
+struct App {
+	vweb.Context
+}
+
+['/version'; get]
+pub fn (mut app App) get_version() vweb.Result {
+	return app.json({
+		'version': 'V 0.3'
+	})
+}
+
+fn main() {
+	vweb.run(&App{}, 8080)
+}
+
+```
+#### Output
+```
+curl --get localhost:8080/version
+{"version":"V 0.3"}
+curl --get localhost:8080/unknowpath
+404 Not Found
 ```
 **[⬆ back to top](#contents)**
