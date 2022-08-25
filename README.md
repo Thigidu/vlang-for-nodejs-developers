@@ -1636,7 +1636,7 @@ console.log(random.get_random_uuid());
 079da02f-53e9-4d5c-b899-871c5d3081a1
 ```
 ### V
-
+```v
 //random/num.v
 module random
 
@@ -1666,7 +1666,6 @@ fn main() {
 	uuid := random.get_random_uuid()
 	println(uuid)
 }
-
 
 ```
 #### Output
