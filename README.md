@@ -51,6 +51,12 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
  - [Promise](#promise)
  - [Try/Catch](#try-catch)
  - [Http Server](#http-server)
+ - [Modules](#modules)
+   - [Export](#modules)
+   - [Import](#modules)
+   - [Install](#modules)
+   - [Update](#modules)
+   - [Remove](modules)
 
  ## Work In progress
 	buffers
@@ -1603,5 +1609,69 @@ curl --get localhost:8080/version
 {"version":"V 0.3"}
 curl --get localhost:8080/unknowpath
 404 Not Found
+```
+**[⬆ back to top](#contents)**
+
+#### Modules
+---
+### Node.js
+
+```node
+//exportmodule.js
+const crypto = require('crypto')
+module.exports = {
+    get_random_num: () => Math.floor(Math.random() * 1000),
+    get_random_uuid: () => crypto.randomUUID()
+}
+
+// module.js
+const random = require('./exportmodule')
+
+console.log(random.get_random_num());
+console.log(random.get_random_uuid());
+```
+#### Output
+```
+616
+079da02f-53e9-4d5c-b899-871c5d3081a1
+```
+### V
+
+//random/num.v
+module random
+
+import rand
+
+// `pub` is similar to node`s module.exports
+pub fn get_random_num() ?u32 {
+	return rand.u32_in_range(1,1000)
+}
+
+//random/uuid.v
+module random 
+
+import rand
+
+pub fn get_random_uuid() string{
+	return rand.uuid_v4()
+}
+
+// module.v
+// import module called random which is inside random folder
+import random
+
+fn main() {
+	n := random.get_random_num() or { panic(err) }
+	println(n)
+	uuid := random.get_random_uuid()
+	println(uuid)
+}
+
+
+```
+#### Output
+```
+785
+b00c215e-375e-4737-932f-62908f48a167
 ```
 **[⬆ back to top](#contents)**
