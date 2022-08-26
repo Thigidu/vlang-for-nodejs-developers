@@ -51,6 +51,13 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
  - [Promise](#promise)
  - [Try/Catch](#try-catch)
  - [Http Server](#http-server)
+ - [Modules](#modules)
+   - [Export](#modules)
+   - [Import](#modules)
+ - [Package Management](#package-management)
+   - [Install](#package-management)
+   - [Update](#package-management)
+   - [Remove](#package-management)
 
  ## Work In progress
 	buffers
@@ -1604,4 +1611,88 @@ curl --get localhost:8080/version
 curl --get localhost:8080/unknowpath
 404 Not Found
 ```
+**[⬆ back to top](#contents)**
+
+#### Modules
+---
+### Node.js
+
+```node
+//exportmodule.js
+const crypto = require('crypto')
+module.exports = {
+    get_random_num: () => Math.floor(Math.random() * 1000),
+    get_random_uuid: () => crypto.randomUUID()
+}
+
+// module.js
+const random = require('./exportmodule')
+
+console.log(random.get_random_num());
+console.log(random.get_random_uuid());
+```
+#### Output
+```
+616
+079da02f-53e9-4d5c-b899-871c5d3081a1
+```
+### V
+```v
+//random/num.v
+module random
+
+import rand
+
+// `pub` is similar to node`s module.exports
+pub fn get_random_num() ?u32 {
+	return rand.u32_in_range(1,1000)
+}
+
+//random/uuid.v
+module random 
+
+import rand
+
+pub fn get_random_uuid() string{
+	return rand.uuid_v4()
+}
+
+// module.v
+// import module called random which is inside random folder
+import random
+
+fn main() {
+	n := random.get_random_num() or { panic(err) }
+	println(n)
+	uuid := random.get_random_uuid()
+	println(uuid)
+}
+
+```
+#### Output
+```
+785
+b00c215e-375e-4737-932f-62908f48a167
+```
+**[⬆ back to top](#contents)**
+#### Package Management
+---
+### Node.js
+
+- NPM helps to manage packages
+- By default npm uses [npmjs.com](https://registry.npmjs.org) to download packages
+- Install a package `npm install packagename`
+- To remove a package `npm uninstall packagename`
+- To publish a package `npm publish`
+- More information https://docs.npmjs.com/cli/v8/commands/npm
+
+### V
+
+- Packages are maintained [VPM](https://vpm.vlang.io/) 
+- Modules can be installed directly from Git.
+- Install package `v install packagename`
+- Install from Git `v install --git https://github.com/vlang/markdown`
+- Remove package `v remove packagename`
+- More information on [Vlang package management](https://github.com/vlang/v/blob/master/doc/docs.md#package-management)
+
 **[⬆ back to top](#contents)**
