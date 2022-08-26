@@ -54,9 +54,10 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
  - [Modules](#modules)
    - [Export](#modules)
    - [Import](#modules)
-   - [Install](#modules)
-   - [Update](#modules)
-   - [Remove](modules)
+ - [Package Management](#package-management)
+   - [Install](#package-management)
+   - [Update](#package-management)
+   - [Remove](#package-management)
 
  ## Work In progress
 	buffers
@@ -1673,4 +1674,25 @@ fn main() {
 785
 b00c215e-375e-4737-932f-62908f48a167
 ```
+**[⬆ back to top](#contents)**
+#### Package Management
+---
+### Node.js
+
+- NPM helps to manage packages
+- By default npm uses [npmjs.com](https://registry.npmjs.org) to download packages
+- Install a package `npm install packagename`
+- To remove a package `npm uninstall packagename`
+- To publish a package `npm publish`
+- More information https://docs.npmjs.com/cli/v8/commands/npm
+
+### V
+
+- Packages are maintained [VPM](https://vpm.vlang.io/) 
+- Modules can be installed directly from Git.
+- Install package `v install packagename`
+- Install from Git `v install --git https://github.com/vlang/markdown`
+- Remove package `v remove packagename`
+- More information on [Vlang package management](https://github.com/vlang/v/blob/master/doc/docs.md#package-management)
+
 **[⬆ back to top](#contents)**
