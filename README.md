@@ -58,6 +58,9 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
    - [Install](#package-management)
    - [Update](#package-management)
    - [Remove](#package-management)
+ - [Stdout](#std-inouterr)
+ - [Stderr](#std-inouterr)
+ - [Stdin](#std-inouterr)
 
  ## Work In progress
 	buffers
@@ -80,9 +83,6 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
 	env vars
 	cli args
 	cli flags
-	stdout
-	stderr
-	stdin
 ### Comments
 ---
 #### Node.js
@@ -1695,4 +1695,62 @@ b00c215e-375e-4737-932f-62908f48a167
 - Remove package `v remove packagename`
 - More information on [Vlang package management](https://github.com/vlang/v/blob/master/doc/docs.md#package-management)
 
+**[⬆ back to top](#contents)**
+#### Std in/out/err
+---
+### Node.js
+
+```node
+const fs = require("fs");
+// Stdout
+console.log('Hello')
+process.stdout.write('Hello \n')
+
+//stderr
+console.error('Some error')
+process.stderr.write('Some error \n')
+
+// read from stdin
+const data = fs.readFileSync(0, "utf-8");
+console.log(data);
+```
+#### Output
+```
+// run the command 
+echo hello stdin | node examples/stdout.js 
+
+Hello
+Hello 
+Some error
+Some error 
+hello stdin
+```
+### V
+```v
+import os
+
+fn main() {
+	println('Hello from println')
+	mut o := os.stdout()
+	o.writeln('Hello')?
+	eprintln('Some error message')
+	mut e := os.stderr()
+	e.writeln('error')?
+	mut i := os.stdin()
+	mut d := i.read_bytes(100)
+	println(d.bytestr())
+}
+
+```
+#### Output
+```
+// run the command
+echo hello stdin | v run examples/stdout.v
+
+Hello from println
+Hello
+Some error message
+error
+hello stdin
+```
 **[⬆ back to top](#contents)**
