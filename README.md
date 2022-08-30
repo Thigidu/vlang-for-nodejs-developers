@@ -61,6 +61,7 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
  - [Stdout](#std-inouterr)
  - [Stderr](#std-inouterr)
  - [Stdin](#std-inouterr)
+ - [Custom Erros](#custom-error)
 
  ## Work In progress
 	buffers
@@ -68,8 +69,6 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
 	reading
 	writing
 	event emitter
-	errors
-	exceptions
 	regex
 	exec (sync)
 	exec (async)
@@ -1752,5 +1751,81 @@ Hello
 Some error message
 error
 hello stdin
+```
+**[⬆ back to top](#contents)**
+#### Custom error
+---
+### Node.js
+
+```node
+class NodeReaderError extends Error {
+    constructor(app, ...params) {
+        super(...params);
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, NodeReaderError);
+        }
+
+        this.name = 'NodeReaderError';
+        this.app = app;
+        this.date = new Date()
+    }
+}
+
+try {
+    throw new NodeReaderError('Employee service', 'Database connection lost');
+} catch (e) {
+    throw e;
+}
+```
+#### Output
+```
+/vlang-for-nodejs-developers/examples/customerror.js:17
+    throw e;
+    ^
+
+NodeReaderError: Database connection lost
+    at Object.<anonymous> (/vlang-for-nodejs-developers/examples/customerror.js:15:11)
+    at Module._compile (node:internal/modules/cjs/loader:1120:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1174:10)
+    at Module.load (node:internal/modules/cjs/loader:998:32)
+    at Module._load (node:internal/modules/cjs/loader:839:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+    at node:internal/main/run_main_module:17:47 {
+  app: 'Employee service',
+  date: 2022-08-30T05:50:24.471Z
+}
+```
+### V
+```v
+import time
+
+struct NodeReaderError {
+	Error
+	path string
+}
+
+fn (err NodeReaderError) msg() string {
+	return ' $time.now() : $err.path does not exist'
+}
+
+fn read_folder(path string) ? {
+	return IError(NodeReaderError{
+		path: path
+	})
+}
+
+fn main() {
+	read_folder('/files') or { panic(err) }
+}
+
+```
+#### Output
+```
+V panic: NodeReaderError:  2022-08-29 22:51:35 : /files does not exist
+v hash: d75c62b
+0   customerror                         0x0000000108af40f8 main__main + 168
+1   customerror                         0x0000000108af51fc main + 76
+2   customerror                         0x0000000108ac0594 start + 52
+3   ???                                 0x0000000000000001 0x0 + 1
 ```
 **[⬆ back to top](#contents)**
