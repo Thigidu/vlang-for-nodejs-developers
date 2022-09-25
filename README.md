@@ -122,16 +122,13 @@ Print some error message
 ```
 ### V
 ```v
-import strconv
-
 fn main(){
 	random_string := 'some random string' 
 	some_int := 1  
-	println('Prints a message in v with new line')	
-	strconv.v_printf('Format printing example %s %d \n', random_string, some_int)
+	println('Prints a message in v with new line')
+	println('Format printing example $random_string $some_int')
 	eprintln('Print error message')
 }
- 
 ```
 
 #### Output
@@ -1829,6 +1826,7 @@ v hash: d75c62b
 3   ???                                 0x0000000000000001 0x0 + 1
 ```
 **[⬆ back to top](#contents)**
+<<<<<<< HEAD
 #### URL Parse
 ---
 ### Node.js
@@ -1866,3 +1864,5 @@ Path: /Thigidu/vlang-for-nodejs-developers
 Fragment: contents
 ```
 **[⬆ back to top](#contents)**
+=======
+>>>>>>> 31df6449925611516ba5499bd2785834dbb7c0dc
