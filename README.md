@@ -62,6 +62,7 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
  - [Stderr](#std-inouterr)
  - [Stdin](#std-inouterr)
  - [Custom Erros](#custom-error)
+ - [URL Parse](#url-parse)
 
  ## Work In progress
 	buffers
@@ -74,7 +75,6 @@ Inspired by [golang-for-nodejs-developers](https://github.com/miguelmota/golang-
 	exec (async)
 	tcp server
 	udp server
-	url parse
 	gzip 
 	dns 
 	crypto
@@ -170,7 +170,7 @@ fn main() {
 #### Output
 
 ```
-2022-08-14T05:30:40.117Z - Log message
+2022-08-14T05:30:40.117Z - info message
 ```
 **[⬆ back to top](#contents)**
 
@@ -1827,5 +1827,42 @@ v hash: d75c62b
 1   customerror                         0x0000000108af51fc main + 76
 2   customerror                         0x0000000108ac0594 start + 52
 3   ???                                 0x0000000000000001 0x0 + 1
+```
+**[⬆ back to top](#contents)**
+#### URL Parse
+---
+### Node.js
+
+```node
+const url = require('url');
+const testUrl = url.parse('https://github.com/Thigidu/vlang-for-nodejs-developers#contents')
+console.log(`Host: ${testUrl.hostname}`);
+console.log(`Path: ${testUrl.pathname}`);
+console.log(`Fragment: ${testUrl.hash}`);
+```
+#### Output
+```
+Host: github.com
+Path: /Thigidu/vlang-for-nodejs-developers
+Fragment: #contents
+```
+### V
+```v
+import net.urllib
+
+fn main() {
+	test_url := 'https://github.com/Thigidu/vlang-for-nodejs-developers#contents'
+	u := urllib.parse(test_url) or { panic('unable to parse') }
+	println('Host: $u.hostname()')
+	println('Path: $u.path')
+	println('Fragment: $u.fragment')
+}
+
+```
+#### Output
+```
+Host: github.com
+Path: /Thigidu/vlang-for-nodejs-developers
+Fragment: contents
 ```
 **[⬆ back to top](#contents)**
