@@ -9,10 +9,10 @@ fn (err NodeReaderError) msg() string {
 	return ' $time.now() : $err.path does not exist'
 }
 
-fn read_folder(path string) ? {
-	return IError(NodeReaderError{
-		path: path
-	})
+fn read_folder(path string) ! {
+    return NodeReaderError{
+        path: path
+    }
 }
 
 fn main() {

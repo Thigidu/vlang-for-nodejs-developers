@@ -9,9 +9,9 @@ fn task(id int, duration int) string {
 
 fn main() {
 	mut threads := []thread string{}
-	threads << go task(1, rand.int_in_range(1000, 10000)?)
-	threads << go task(2, rand.int_in_range(1000, 10000)?)
-	threads << go task(3, rand.int_in_range(1000, 10000)?)
+	threads << go task(1, rand.int_in_range(1000, 10000)!)
+	threads << go task(2, rand.int_in_range(1000, 10000)!)
+	threads << go task(3, rand.int_in_range(1000, 10000)!)
 	res := threads.wait()
 	println(res)
 }

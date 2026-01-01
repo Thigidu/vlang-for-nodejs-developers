@@ -7,13 +7,13 @@ struct List {
 	actors []Actor
 }
 
-fn (l List) by_name(name string) ?Actor {
-	for a in l.actors {
-		if a.name == name {
-			return a
-		}
-	}
-	return error('Employee $name not exist')
+fn (l List) by_name(name string) !Actor {
+    for a in l.actors {
+        if a.name == name {
+            return a
+        }
+    }
+    return error('Employee $name not exist')
 }
 
 fn main() {
@@ -23,8 +23,8 @@ fn main() {
 			age: 18
 		}]
 	}
-	actor_details := actor.by_name('John') or { panic(err) }
+	actor_details := actor.by_name('John')!
 	println(actor_details)
-	actor_details2 := actor.by_name('Angelina') or { panic(err) }
+	actor_details2 := actor.by_name('Angelina')!
 	println(actor_details2)
 }

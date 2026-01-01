@@ -1,4 +1,4 @@
-[params]
+@[params]
 struct EmployeeConfig {
 	id int
 }
